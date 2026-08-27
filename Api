@@ -1,0 +1,268 @@
+# Technical Writing Lab
+
+## Overview
+
+Technical writing improves through practice, feedback, and revision. This lab provides practical experience in writing technical documentation for different audiences.
+
+The exercises completed in this lab are:
+
+1. User Manual Procedure
+2. API Reference Entry
+
+---
+
+# Exercise 1: User Manual Procedure
+
+## Task: Setting Up a GitHub Repository and Making a First Commit
+
+### Purpose
+
+This procedure explains how a first-semester computing student can create a GitHub repository, connect it to a local project folder, and make the first Git commit.
+
+## Prerequisites
+
+Before starting, you need:
+
+- A computer with an internet connection.
+- A GitHub account.
+- Git installed on the computer.
+- Git Bash, Terminal, or another command-line application.
+- A project folder containing at least one file.
+- Basic knowledge of navigating folders.
+- Permission to create repositories on your GitHub account.
+
+## Step-by-Step Procedure
+
+### Step 1: Open Git Bash
+
+**Action:** Open Git Bash on the computer.
+
+**Expected result:** A Git Bash terminal window appears.
+
+### Step 2: Navigate to the Project Folder
+
+**Action:** Use the `cd` command to enter the project folder.
+
+Example:
+
+```bash
+cd project-folder
+Expected result: The terminal is now working inside the project folder.
+Step 3: Initialize Git
+Action: Run the following command:
+git init
+Expected result: Git creates a local repository in the project folder.
+Step 4: Check the Repository Status
+Action: Run:
+git status
+Expected result: Git displays the current repository status and identifies files that are not being tracked.
+Step 5: Stage the Project Files
+Action: Run:
+git add .
+Expected result: The project files are added to the Git staging area.
+Step 6: Create the First Commit
+Action: Run:
+git commit -m "Initial commit"
+Expected result: Git creates the first commit containing the staged files.
+Step 7: Create a GitHub Repository
+Action: Create a new repository on GitHub.
+Expected result: GitHub creates the remote repository.
+Step 8: Copy the Repository URL
+Action: Copy the HTTPS URL of the GitHub repository.
+Expected result: The repository URL is available for connecting the local repository.
+Step 9: Connect the Local Repository to GitHub
+Action: Run the following command, replacing the URL with your repository URL:
+git remote add origin YOUR_REPOSITORY_URL
+Expected result: The local repository is connected to the GitHub repository named origin.
+Step 10: Rename the Branch to Main
+Action: Run:
+git branch -M main
+Expected result: The current branch is renamed to main.
+Step 11: Push the Commit to GitHub
+Action: Run:
+git push -u origin main
+Expected result: The local commit is uploaded to the GitHub repository.
+Step 12: Open the GitHub Repository
+Action: Open the repository page in a web browser.
+Expected result: The project files and the Initial commit are visible on GitHub.
+Screenshot Description
+Screenshot 1: Successful Git Push
+The screenshot should show the Git Bash terminal after running:
+git push -u origin main
+The screenshot should demonstrate that the files were successfully uploaded to GitHub without an error message.
+Screenshot 2: GitHub Repository
+The screenshot should show the GitHub repository page after the push is completed.
+It should display:
+The repository name.
+The uploaded project files.
+The main branch.
+The Initial commit message.
+Troubleshooting
+Common Error: remote origin already exists
+This error usually means that the local project is already connected to a remote GitHub repository.
+Check the current remote repository by running:
+git remote -v
+If the URL is incorrect, change it using:
+git remote set-url origin YOUR_REPOSITORY_URL
+Then push the project again:
+git push -u origin main
+Exercise 2: API Reference Entry
+Create a New Task API
+Endpoint
+HTTP Method:
+POST
+Endpoint Path:
+/api/v1/projects/{project_id}/tasks
+Description
+This endpoint allows an authenticated user to create a new task inside a specified project in a project management application.
+The user must have permission to create tasks in the selected project.
+A task contains:
+A title.
+An optional description.
+An assigned user.
+A due date.
+A priority level.
+Path Parameters
+Parameter
+Data Type
+Required
+Description
+project_id
+String
+Yes
+Unique identifier of the project where the new task will be created.
+Query Parameters
+This endpoint does not require any query parameters.
+Request Headers
+Header
+Required
+Description
+Authorization
+Yes
+Bearer access token used to authenticate the user.
+Content-Type
+Yes
+Specifies that the request body is formatted as JSON.
+Accept
+Optional
+Indicates that the client expects a JSON response.
+Authentication
+The API requires authentication using a bearer access token.
+The authorization header must follow this format:
+Authorization: Bearer <access_token>
+Example:
+Authorization: Bearer eyJhbGciOiJIUzI1NiIs...
+Request Body
+The request body must contain a JSON object with the following fields.
+Field
+Data Type
+Required
+Description
+title
+String
+Yes
+Short name of the task.
+description
+String
+No
+Additional information about the task.
+assignee_id
+String
+Yes
+Unique ID of the user assigned to the task.
+due_date
+String
+Yes
+Date by which the task should be completed. Uses YYYY-MM-DD format.
+priority
+String
+Yes
+Task priority. Accepted values are low, medium, or high.
+Example Request
+POST /api/v1/projects/proj_1024/tasks
+Authorization: Bearer eyJhbGciOiJIUzI1NiIs...
+Content-Type: application/json
+Accept: application/json
+JSON Request Body
+{
+  "title": "Prepare project presentation",
+  "description": "Create the presentation slides and review them before submission.",
+  "assignee_id": "usr_2048",
+  "due_date": "2026-09-15",
+  "priority": "high"
+}
+HTTP Response Codes
+Status Code
+Meaning
+Description
+201 Created
+Task created successfully
+The task was successfully created.
+400 Bad Request
+Invalid request
+The request contains invalid or malformed data.
+401 Unauthorized
+Authentication required
+The authentication token is missing, invalid, or expired.
+403 Forbidden
+Access denied
+The authenticated user does not have permission to create a task in the project.
+404 Not Found
+Resource not found
+The specified project or assignee does not exist.
+409 Conflict
+Request conflict
+The request conflicts with the current state of the project or an existing resource.
+422 Unprocessable Entity
+Validation failed
+The request is correctly formatted but contains values that fail validation.
+500 Internal Server Error
+Server error
+An unexpected error occurred on the server.
+Successful Response
+A successful request returns HTTP status:
+201 Created
+The response is returned in JSON format.
+Example Successful Response
+{
+  "id": "task_7842",
+  "project_id": "proj_1024",
+  "title": "Prepare project presentation",
+  "description": "Create the presentation slides and review them before submission.",
+  "assignee_id": "usr_2048",
+  "due_date": "2026-09-15",
+  "priority": "high",
+  "status": "open",
+  "created_by": "usr_1001",
+  "created_at": "2026-08-27T08:45:12Z",
+  "updated_at": "2026-08-27T08:45:12Z"
+}
+API Design Notes
+The API follows a consistent structure for creating tasks.
+project_id identifies the project that will contain the task.
+title is required.
+description is optional.
+assignee_id identifies the user assigned to the task.
+due_date specifies the task deadline.
+priority must be low, medium, or high.
+Authentication is required.
+A successful task creation returns 201 Created.
+The API uses JSON for request and response bodies.
+The task ID is generated by the server.
+The response provides information about the newly created task.
+Conclusion
+This technical writing lab demonstrates two important forms of software documentation.
+The User Manual Procedure focuses on helping beginner users complete a technical task through clear prerequisites, individual actions, expected results, screenshots, and troubleshooting information.
+The API Reference Entry provides developers with the technical information required to use an API endpoint correctly, including the HTTP method, endpoint path, parameters, authentication, request body, response codes, and JSON examples.
+Both forms of documentation should be clear, accurate, consistent, and appropriate for their intended audience.
+
+### Recommended GitHub file
+
+Save the content above as:
+
+```text
+README.md
+Then commit and push it:
+git add README.md
+git commit -m "Complete technical writing lab"
+git push
